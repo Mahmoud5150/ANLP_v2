@@ -1,0 +1,24 @@
+﻿# Environment
+.venv/
+
+# Data: never committed (large files); keep the folder layout via .gitkeep
+data/**
+!data/**/
+!data/**/.gitkeep
+
+# Spark write artefacts
+spark-warehouse/
+metastore_db/
+derby.log
+*.crc
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
