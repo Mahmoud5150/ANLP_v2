@@ -6,13 +6,13 @@ Fine-tuning **AraBERT** to classify the sentiment of Arabic hotel reviews, with 
 
 ## Pipeline
 
-| Stage | Notebook | What it does | Status |
-|---|---|---|---|
-| Inspect | [`notebook/00_inspect.ipynb`](notebook/00_inspect.ipynb) | Inspect the raw file: encoding, delimiter, columns, types | ✅ |
-| Bronze | [`src/01_bronze.ipynb`](src/01_bronze.ipynb) | Load the raw data as-is with an explicit schema, add ingestion metadata, save as Parquet | ✅ |
-| Silver | — | Clean and normalise text, handle missing values, derive sentiment labels from ratings | ⏳ |
-| Gold | — | Train / validation / test splits ready for AraBERT | ⏳ |
-| Model | — | Fine-tune AraBERT and evaluate | ⏳ |
+| Stage | Notebook | What it does |
+|---|---|---|
+| Inspect | [`notebook/00_inspect.ipynb`](notebook/00_inspect.ipynb) | Inspect the raw file: encoding, delimiter, columns, types |
+| Bronze | [`src/01_bronze.ipynb`](src/01_bronze.ipynb) | Load the raw data as-is with an explicit schema, add ingestion metadata, save as Parquet |
+| Silver | — | Clean and normalise text, handle missing values, derive sentiment labels from ratings |
+| Gold | — | Train / validation / test splits ready for AraBERT |
+| Model | — | Fine-tune AraBERT and evaluate |
 
 ## Data
 
