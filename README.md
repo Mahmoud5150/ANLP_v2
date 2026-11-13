@@ -1,8 +1,6 @@
 # AraBERT Sentiment on Arabic Hotel Reviews
 
-Fine-tuning **AraBERT** to classify the sentiment of Arabic hotel reviews, with a **PySpark** medallion pipeline (bronze → silver → gold) preparing the data.
-
-> Work in progress — currently at the bronze stage.
+Fine-tuning AraBERT to classify the sentiment of Arabic hotel reviews, with a PySpark medallion pipeline (bronze, silver, gold) preparing the data.
 
 ## Pipeline
 
@@ -10,15 +8,17 @@ Fine-tuning **AraBERT** to classify the sentiment of Arabic hotel reviews, with 
 |---|---|---|
 | Inspect | [`notebook/00_inspect.ipynb`](notebook/00_inspect.ipynb) | Inspect the raw file: encoding, delimiter, columns, types |
 | Bronze | [`src/01_bronze.ipynb`](src/01_bronze.ipynb) | Load the raw data as-is with an explicit schema, add ingestion metadata, save as Parquet |
-| Silver | — | Clean and normalise text, handle missing values, derive sentiment labels from ratings |
-| Gold | — | Train / validation / test splits ready for AraBERT |
+| Silver | [`src/02_silver.ipynb`](src/02_silver.ipynb) | Deduplicate, label sentiment from ratings, remove label-leaking titles, normalise Arabic text, split train / val / test |
+| Gold | — | Model-ready data for AraBERT |
 | Model | — | Fine-tune AraBERT and evaluate |
+
+Shared Spark settings and data paths live in [`src/config.py`](src/config.py).
 
 ## Data
 
-`balanced-reviews.txt`: 105,698 Arabic hotel reviews (tab-separated, UTF-16) with hotel name, rating, user type, room type, length of stay and review text.
+HARD (Hotel Arabic Reviews Dataset), balanced version: 105,698 reviews in `balanced-reviews.txt` (tab-separated, UTF-16) with hotel name, rating, user type, room type, length of stay and review text.
 
-The data is **not included** in this repository. Place the file at:
+The data is not included in this repository. Place the file at:
 
 ```
 data/raw/balanced-reviews.txt
@@ -30,10 +30,11 @@ data/raw/balanced-reviews.txt
 data/
   raw/       source file (not committed)
   bronze/    raw data as Parquet + ingestion metadata
-  silver/    cleaned data
-  gold/      model-ready splits
+  silver/    cleaned, labelled data split into train / val / test
+  gold/      model-ready data
 notebook/    exploration
-src/         pipeline steps
+src/         pipeline steps and shared config
+tools/       Windows Hadoop helpers (not committed)
 ```
 
 ## Setup
@@ -46,4 +47,4 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-**Windows note:** Spark's native Parquet writer needs Hadoop's `winutils.exe` and `HADOOP_HOME` to be set. Until that's configured, the bronze step writes Parquet through pandas/pyarrow instead.
+On Windows, Spark needs Hadoop's `winutils.exe` and `hadoop.dll` to write files. Put both in `tools/hadoop/bin/`; `src/config.py` sets `HADOOP_HOME` to that folder automatically.

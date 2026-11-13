@@ -22,3 +22,6 @@ __pycache__/
 .idea/
 Thumbs.db
 .DS_Store
+
+# Windows Hadoop helpers (winutils.exe, hadoop.dll)
+tools/
