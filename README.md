@@ -9,6 +9,7 @@ Fine-tuning AraBERT to classify the sentiment of Arabic hotel reviews, with a Py
 | Inspect | [`notebook/00_inspect.ipynb`](notebook/00_inspect.ipynb) | Inspect the raw file: encoding, delimiter, columns, types |
 | Bronze | [`src/01_bronze.ipynb`](src/01_bronze.ipynb) | Load the raw data as-is with an explicit schema, add ingestion metadata, save as Parquet |
 | Silver | [`src/02_silver.ipynb`](src/02_silver.ipynb) | Deduplicate, label sentiment from ratings, remove label-leaking titles, normalise Arabic text, split train / val / test |
+| Baseline | [`src/03_baseline.ipynb`](src/03_baseline.ipynb) | TF-IDF + logistic regression in Spark ML, tuned on val (85.15% val accuracy); exports the splits for AraBERT |
 | Gold | — | Model-ready data for AraBERT |
 | Model | — | Fine-tune AraBERT and evaluate |
 
