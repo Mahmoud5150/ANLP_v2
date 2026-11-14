@@ -11,7 +11,7 @@ Fine-tuning AraBERT to classify the sentiment of Arabic hotel reviews, with a Py
 | Silver | [`src/02_silver.ipynb`](src/02_silver.ipynb) | Deduplicate, label sentiment from ratings, remove label-leaking titles, normalise Arabic text, split train / val / test |
 | Baseline | [`src/03_baseline.ipynb`](src/03_baseline.ipynb) | TF-IDF + logistic regression in Spark ML, tuned on val (85.15% val accuracy); exports the splits for AraBERT |
 | Gold | — | Model-ready data for AraBERT |
-| Model | — | Fine-tune AraBERT and evaluate |
+| Fine-tune | [`src/04_finetune_kaggle.ipynb`](src/04_finetune_kaggle.ipynb) | Fine-tune `aubmindlab/bert-base-arabertv02` on a Kaggle T4 GPU (91.91% val accuracy); push the model to the Hugging Face Hub |
 
 Shared Spark settings and data paths live in [`src/config.py`](src/config.py).
 
