@@ -13,6 +13,7 @@ Fine-tuning AraBERT to classify the sentiment of Arabic hotel reviews, with a Py
 | Fine-tune | [`src/04_finetune_kaggle.ipynb`](src/04_finetune_kaggle.ipynb) | Fine-tune `aubmindlab/bert-base-arabertv02` on a Kaggle T4 GPU; push the model to the Hugging Face Hub |
 | Inference | [`src/05_inference.ipynb`](src/05_inference.ipynb) | Batch-score the test set with the fine-tuned model on CPU, distributed with Spark `mapInPandas` |
 | Gold | [`src/06_gold.ipynb`](src/06_gold.ipynb) | Join both models' test predictions; compare accuracy by review length, rating and user type; check calibration |
+| Mixed sentiment | [`src/07_mixed.ipynb`](src/07_mixed.ipynb) | Score each sentence separately to label reviews positive / negative / mixed / neutral (rule-based, checked against star ratings) |
 
 Shared Spark settings and data paths live in [`src/config.py`](src/config.py).
 
