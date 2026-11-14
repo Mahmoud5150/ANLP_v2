@@ -127,7 +127,7 @@ Mixed reviews concentrate where expected (2★ highest, 5★ lowest). Unhappy gu
 
 The [demo Space](https://huggingface.co/spaces/Mahmoud-103/arabert-hard-sentiment-demo) applies the same rules to any review. Here the guest praises the room and complains about the AC ("the room is clean, but the AC is broken"). The whole-review model leans positive (80%), but the sentence breakdown finds one clearly positive and one clearly negative part, so the verdict is **MIXED**.
 
-![Demo: a mixed review broken down sentence by sentence](docs/images/demo_mixed.png)
+![Demo: a mixed review broken down sentence by sentence](docs/images/demo_mixed_badge.png)
 
 ---
 
@@ -174,7 +174,7 @@ The published results use the saved silver split. The split in `02_silver` is as
 - Labels come from star ratings, which are noisy (e.g. a 4★ review with mostly complaints).
 - **Dialectal negation is a known weak spot.** The model recognises negative words in dialect (`المكيف خربان`, "the AC is broken" → negative), but misses negation built from `ما` + a neutral verb: `المكيف ما يبرد` ("the AC doesn't cool") is predicted positive, so the whole review is wrongly labelled POSITIVE instead of MIXED.
 
-  ![Known failure: dialectal negation](docs/images/demo_failure_negation.png)
+  ![Known failure: dialectal negation](docs/images/demo_failure_badge.png)
 - Hotel reviews only; performance on other domains is untested.
 - The HARD dataset has no stated license; the model is intended for research and educational use.
 
