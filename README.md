@@ -25,7 +25,7 @@ Held-out test set (10,217 reviews, balanced positive / negative):
 | TF-IDF + logistic regression | 85.15% | 85.76% |
 | AraBERT v02 (fine-tuned) | 91.91% | **91.85%** |
 
-AraBERT is ahead in every segment, with the largest gain on short reviews (≤10 words: 81.7% → 89.8%). Its confidence is well calibrated: the 82% of reviews it predicts with ≥90% confidence are right 96.8% of the time.
+AraBERT is ahead across every review length, rating and user type, with the largest gain on short reviews (≤10 words: 81.7% → 89.8%). Its confidence is well calibrated: the 82% of reviews it predicts with ≥90% confidence are right 96.8% of the time.
 
 ## Data
 
