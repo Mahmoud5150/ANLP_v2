@@ -2,7 +2,8 @@
 
 End-to-end sentiment analysis of Arabic hotel reviews: a PySpark medallion pipeline (bronze → silver → gold) prepares the data, a fine-tuned AraBERT model classifies it, and Spark runs the model as distributed batch inference.
 
-**Model on Hugging Face:** [`Mahmoud-103/arabert-hard-sentiment`](https://huggingface.co/Mahmoud-103/arabert-hard-sentiment)
+**Model on Hugging Face:** [`Mahmoud-103/arabert-hard-sentiment`](https://huggingface.co/Mahmoud-103/arabert-hard-sentiment)  
+**Live demo:** [Hugging Face Space](https://huggingface.co/spaces/Mahmoud-103/arabert-hard-sentiment-demo) — overall sentiment plus a sentence-by-sentence breakdown
 
 | | Test accuracy |
 |---|---|
@@ -30,14 +31,13 @@ Shared Spark settings and data paths live in [`src/config.py`](src/config.py).
 
 ```mermaid
 flowchart LR
-    RAW["Raw HARD file<br/>UTF-16, tab-separated"] --> BRONZE["Bronze<br/>typed Parquet + lineage"]
-    BRONZE --> SILVER["Silver<br/>dedup · labels · leakage removed<br/>normalised · train/val/test"]
-    SILVER --> BASE["Baseline<br/>Spark ML TF-IDF + LogReg"]
-    SILVER -- "Parquet hand-off" --> FT["AraBERT fine-tune<br/>Kaggle GPU"]
-    FT --> HUB[("Hugging Face Hub")]
-    HUB --> INF["Spark batch inference<br/>mapInPandas"]
-    SILVER --> INF
-    BASE --> GOLD["Gold<br/>comparison · error analysis<br/>calibration · mixed sentiment"]
+    RAW[Raw data] --> BRONZE[Bronze]
+    BRONZE --> SILVER[Silver]
+    SILVER --> BASE[TF-IDF baseline]
+    SILVER --> FT[AraBERT fine-tune]
+    FT --> HUB[(Hugging Face)]
+    HUB --> INF[Spark inference]
+    BASE --> GOLD[Gold]
     INF --> GOLD
 ```
 
@@ -123,6 +123,12 @@ On the test set: positive 43% · negative 32% · **mixed 22%** · neutral 2%.
 
 Mixed reviews concentrate where expected (2★ highest, 5★ lowest). Unhappy guests mention positives much more often than happy guests mention negatives. Many HARD reviews appear to join Booking.com's separate "liked" / "disliked" fields, which makes them structurally mixed.
 
+### Live demo
+
+The [demo Space](https://huggingface.co/spaces/Mahmoud-103/arabert-hard-sentiment-demo) applies the same rules to any review. Here the guest praises the room and complains about the AC ("the room is clean, but the AC is broken"). The whole-review model leans positive (80%), but the sentence breakdown finds one clearly positive and one clearly negative part, so the verdict is **MIXED**.
+
+![Demo: a mixed review broken down sentence by sentence](docs/images/demo_mixed.png)
+
 ---
 
 ## Training and inference
@@ -166,6 +172,9 @@ The published results use the saved silver split. The split in `02_silver` is as
 
 - Mixed / neutral labels are rule-based (thresholds 0.8 / 0.2 / 0.6) and checked against star ratings and manual examples, not against sentence-level ground truth.
 - Labels come from star ratings, which are noisy (e.g. a 4★ review with mostly complaints).
+- **Dialectal negation is a known weak spot.** The model recognises negative words in dialect (`المكيف خربان`, "the AC is broken" → negative), but misses negation built from `ما` + a neutral verb: `المكيف ما يبرد` ("the AC doesn't cool") is predicted positive, so the whole review is wrongly labelled POSITIVE instead of MIXED.
+
+  ![Known failure: dialectal negation](docs/images/demo_failure_negation.png)
 - Hotel reviews only; performance on other domains is untested.
 - The HARD dataset has no stated license; the model is intended for research and educational use.
 
