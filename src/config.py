@@ -15,6 +15,12 @@ HADOOP_HOME = ROOT / "tools" / "hadoop"
 os.environ["HADOOP_HOME"] = str(HADOOP_HOME)
 os.environ["PATH"] = str(HADOOP_HOME / "bin") + os.pathsep + os.environ.get("PATH", "")
 
+# ---------- make Spark workers use THIS venv's Python ----------
+# without this, workers may start a different Python that lacks torch/transformers
+import sys
+os.environ["PYSPARK_PYTHON"] = sys.executable
+os.environ["PYSPARK_DRIVER_PYTHON"] = sys.executable
+
 # ---------- paths (one place -> change once, every notebook updates) ----------
 RAW_PATH        = str(ROOT / "data" / "raw" / "balanced-reviews.txt")
 BRONZE_PATH     = str(ROOT / "data" / "bronze" / "hard_reviews")

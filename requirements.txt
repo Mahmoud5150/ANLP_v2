@@ -1,4 +1,7 @@
 pyspark==4.3.0
 pyarrow==26.0.1
-pandas==3.1.1
+pandas==2.3.3
 jupyterlab==4.6.6
+torch==2.15.0
+transformers==5.23.0
+huggingface_hub==2.4.0
